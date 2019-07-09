@@ -47,3 +47,61 @@ function deleteSpasesTwo (spases) {
     console.log(spases.split(' ').sort().join(' ').trim())
 }
 deleteSpasesTwo('Hello    my   cat')
+
+//перевод обычного текста в азбуку Морзе
+
+var morse = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
+
+function translate (word) {
+    
+        console.log(word.split('').map( (letter) => {
+            let newCharCode = letter.charCodeAt() - 97
+            return morse[newCharCode]
+        } ))
+    }
+
+translate('lena')
+
+//проверка парности скобок
+
+function compareSymbol(string) {
+    let compareOpen = []
+    let compareOpenBrackets = new Set ('(', '{', '[')
+    let bracketsPair = {
+        ')' : '(',
+        '}' : '{',
+        ']' : '['
+    }
+  for (let compare of string) {
+      if (compareOpenBrackets.has(compare)) {
+          compareOpen.push(compare)
+      } else if (bracketsPair[compare] && compareOpen.pop() !== bracketsPair[compare]){
+          return false 
+      }
+  }
+  return !compareOpen.length
+}
+console.log(compareSymbol('()'))
+
+//самоделяющиеся числа 
+
+function selfDividing(a, b) {
+    var arrResults = new Array ()
+    for (var i = a; i <= b; i++) {
+        arrResults.push(i)
+    }
+    return [...Array(1 + b - a).keys()].reduce(function(numberDivided, current){
+        var number = current + a
+        for (var i in number.toString()){
+            let divide = number.toString()[i]
+            if (divide === 0 || number % divide !== 0 ){
+                return numberDivided
+            }
+        }
+        numberDivided.push(number)
+        return numberDivided
+    },
+    [])
+}
+console.log(selfDividing(1, 50))
+

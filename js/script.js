@@ -64,34 +64,39 @@ translate('lena')
 
 //проверка парности скобок
 
-function compareSymbol(string) {
-    let compareOpen = []
-    let compareOpenBrackets = new Set ('(', '{', '[')
-    let bracketsPair = {
-        ')' : '(',
-        '}' : '{',
-        ']' : '['
+
+function compareBrack (brack) {
+    let newArr = []
+    let pares = new Set ('{', '[', '(')
+    let paresObj = {
+        ')':'(',
+        '}':'{',
+        ']':'['
     }
-  for (let compare of string) {
-      if (compareOpenBrackets.has(compare)) {
-          compareOpen.push(compare)
-      } else if (bracketsPair[compare] && compareOpen.pop() !== bracketsPair[compare]){
-          return false 
-      }
-  }
-  return !compareOpen.length
+
+    for(let c of brack) { 
+        if (pares.has(c)) {
+            newArr.push(c)
+        } else if (paresObj[c] && newArr.pop() !== paresObj[c]) {
+            return false
+        }
+
+    }
+
+    return !newArr.length
+    
 }
-console.log(compareSymbol('()'))
+console.log(compareBrack('{}'))
 
 //самоделяющиеся числа 
 
-function selfDividing(a, b) {
-    var arrResults = new Array ()
-    for (var i = a; i <= b; i++) {
+function selfDividing(left, right) {
+    var arrResults = []
+    for (let i = left; i <= right; i++) {
         arrResults.push(i)
     }
-    return [...Array(1 + b - a).keys()].reduce(function(numberDivided, current){
-        var number = current + a
+    return result = arrResults.reduce(function(numberDivided, current){
+        var number = current + left
         for (var i in number.toString()){
             let divide = number.toString()[i]
             if (divide === 0 || number % divide !== 0 ){
@@ -105,3 +110,17 @@ function selfDividing(a, b) {
 }
 console.log(selfDividing(1, 50))
 
+//ревёрс чисел с условием 1000 => 0001 => 1
+
+
+
+function reverseNumbers(numbers) {
+    numbers = (numbers + '').split('').reverse()
+    indexOfNonZeroNumber = numbers.findIndex((el) => {
+        return el !== '0'
+    })
+   numbers.splice(0,  indexOfNonZeroNumber)
+   return numbers.join('') 
+}
+
+console.log(reverseNumbers(1001))

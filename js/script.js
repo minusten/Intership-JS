@@ -53,21 +53,25 @@ deleteSpasesTwo('Hello    my   cat')
 var morse = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
 
 function translate (word) {
-    
         console.log(word.split('').map( (letter) => {
             let newCharCode = letter.charCodeAt() - 97
-            return morse[newCharCode]
-        } ))
-    }
+            
+            return morse[newCharCode]  
+            
+        } 
+      ).join(' ')
+    )
+}
 
 translate('lena')
 
-//проверка парности скобок
 
+//проверка парности скобок
+ 
 
 function compareBrack (brack) {
     let newArr = []
-    let pares = new Set ('{', '[', '(')
+    let pares = new Set ('{', '[', '(', ')', ']', '}')
     let paresObj = {
         ')':'(',
         '}':'{',
@@ -86,7 +90,25 @@ function compareBrack (brack) {
     return !newArr.length
     
 }
-console.log(compareBrack('{}'))
+console.log(compareBrack('([{}])'))
+
+let checkLength = function(bracket, a, b){
+    return (bracket.match(a) || [] ).length === (bracket.match(b) || [] ).length;
+};
+let comparedBrackets = function(bracket){
+    let arr = [ 
+        [ /\(/g, /\)/g ], [ /\{/g, /\}/g ], [ /\[/g, /\]/g ] 
+    ], 
+    i = arr.length
+    isClean = true;
+
+    while( i-- && isClean ){
+        isClean = checkLength( bracket, arr[i][0], arr[i][1] );
+    }
+    return isClean;
+
+};
+console.log(comparedBrackets('({[{}]})'))
 
 //самоделяющиеся числа 
 
@@ -115,12 +137,107 @@ console.log(selfDividing(1, 50))
 
 
 function reverseNumbers(numbers) {
-    numbers = (numbers + '').split('').reverse()
+  numbers =  (numbers + '').split('').reverse() 
     indexOfNonZeroNumber = numbers.findIndex((el) => {
-        return el !== '0'
+        return el !== '0' 
+        
     })
    numbers.splice(0,  indexOfNonZeroNumber)
-   return numbers.join('') 
+   return numbers.join('')
 }
 
-console.log(reverseNumbers(1001))
+console.log(reverseNumbers(-1002))
+
+function reversedNumb(numbers) {
+    return (
+      parseFloat(numbers.toString().split('').reverse().join('')) * Math.sign(numbers)
+    )                 
+  }
+  console.log(reversedNumb(-100))
+
+function Elements (title, prevTitle) {
+    this.prev = null
+    this.next = null
+    this.prevTitle =  prevTitle
+    this.title = title
+  
+    this.setPrev = (el) => {
+        this.prev = el
+    }
+    this.setNext = (el) => {
+        this.next = el
+    }
+    this.setSwap = (el) => {
+        let el1 = this
+        let el2 = el
+        el.prevTitle = el1.title
+        this.prevTitle = el2.title
+        this.prev = el2.prev
+        el.prev = el2.prev
+        this.next = el1.next
+        el.next = el2.next        
+    }   
+   
+}
+
+let el1 = new Elements('one') 
+let el2 = new Elements('two')
+let el3 = new Elements('three')
+let el4 = new Elements('four')
+
+
+
+el1.setNext(el2)
+el1.setSwap(el3)
+console.log(el1)
+
+el2.setPrev(el1) 
+el2.setNext(el3)
+el2.setSwap(el4)
+console.log(el2)
+
+el3.setPrev(el2)
+el3.setSwap(el1)
+el3.setNext(el4)
+console.log(el3)
+
+el4.setPrev(el3)
+el4.setSwap(el2)
+console.log(el4)
+
+
+
+//рекурсия
+
+function sumTo(n) {
+    var sum = 0;
+    for (var i = 1; i <= n; i++) {
+      sum += i;
+    }
+    return sum;
+  }
+  
+  console.log( sumTo(100) );
+
+// бан определенных слов в строке
+
+
+var names = 'hello, help, help, me, help, Lesha'
+
+var uniqWords = names.split(', ').map((name) => {
+    return {
+      count: 1,
+      name: name
+    }
+  }).reduce((a, b) => {
+    a[b.name] = (a[b.name] || 0) + b.count
+    return a
+  }, {})
+
+var nonUniqWord = Object.keys(uniqWords).filter((a) => uniqWords[a] > 1).join(' ')
+
+console.log(nonUniqWord)
+
+
+
+ 
